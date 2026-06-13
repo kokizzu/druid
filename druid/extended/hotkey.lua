@@ -133,8 +133,9 @@ end
 
 ---@private
 ---@param modificator hash
+---@param time number The current time
 ---@return boolean
-function M:_is_modificator_active(modificator)
+function M:_is_modificator_active(modificator, time)
 	if self._modificators[modificator] then
 		return true
 	end
@@ -144,7 +145,7 @@ function M:_is_modificator_active(modificator)
 		return false
 	end
 
-	if socket.gettime() - released_at < self.style.MODIFICATOR_RELEASE_TIME then
+	if time - released_at < self.style.MODIFICATOR_RELEASE_TIME then
 		return true
 	end
 
@@ -158,6 +159,8 @@ end
 ---@param action action The action
 ---@return boolean is_consume True if the action is consumed
 function M:on_input(action_id, action)
+	local time = socket.gettime()
+
 	if not action_id then
 		return false
 	end
@@ -185,13 +188,13 @@ function M:on_input(action_id, action)
 					---@cast mod hash
 
 					if #hotkey.modificators > 0 then
-						if helper.contains(hotkey.modificators, mod) and not self:_is_modificator_active(mod) then
+						if helper.contains(hotkey.modificators, mod) and not self:_is_modificator_active(mod, time) then
 							is_modificator_ok = false
 						end
-						if not helper.contains(hotkey.modificators, mod) and self:_is_modificator_active(mod) then
+						if not helper.contains(hotkey.modificators, mod) and self:_is_modificator_active(mod, time) then
 							is_modificator_ok = false
 						end
-					elseif self:_is_modificator_active(mod) then
+					elseif self:_is_modificator_active(mod, time) then
 						is_modificator_ok = false
 					end
 				end
@@ -215,7 +218,7 @@ function M:on_input(action_id, action)
 
 	if self._modificators[action_id] ~= nil and action.released then
 		self._modificators[action_id] = false
-		self._modificator_released_at[action_id] = socket.gettime()
+		self._modificator_released_at[action_id] = time
 	end
 
 	return false
