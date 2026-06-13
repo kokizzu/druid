@@ -143,6 +143,7 @@ M["text"] = {
 
 
 M["hotkey"] = {
+	MODIFICATOR_RELEASE_TIME = 0.12,
 	-- Add key ids to mark it as modificator keys
 	MODIFICATORS = {
 		"key_lshift",
