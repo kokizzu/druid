@@ -292,6 +292,7 @@ return function()
 			end
 
 			local hotkey = druid_instance:new_hotkey("key_q", on_hotkey)
+			hotkey.style.MODIFICATOR_RELEASE_TIME = 0
 
 			druid_instance:on_input(mock_input.key_pressed("key_lshift"))
 			druid_instance:on_input(mock_input.key_pressed("key_q"))

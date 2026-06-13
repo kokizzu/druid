@@ -3,7 +3,7 @@ local helper = require("druid.helper")
 local component = require("druid.component")
 
 ---@class druid.hotkey.style
----@field MODIFICATORS hash[] The list of action_id as hotkey modificators
+---@field MODIFICATORS string[]|hash[] The list of action_id as hotkey modificators
 ---@field MODIFICATOR_RELEASE_TIME number Time in seconds to keep modificator active after release
 
 ---Druid component to manage hotkeys and trigger callbacks when hotkeys are pressed.
@@ -182,6 +182,8 @@ function M:on_input(action_id, action)
 			if hotkey.key then
 				for i = 1, #self.style.MODIFICATORS do
 					local mod = self.style.MODIFICATORS[i]
+					---@cast mod hash
+
 					if #hotkey.modificators > 0 then
 						if helper.contains(hotkey.modificators, mod) and not self:_is_modificator_active(mod) then
 							is_modificator_ok = false
