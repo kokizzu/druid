@@ -826,3 +826,8 @@ Please support me if you like this project! It will help me keep engaged to upda
 ### Druid 1.2.3
 - [Hotkey] Should not trigger hotkey without modificators when modificator is pressed
 - [Editor Scripts] Rename go -> root to druid game collection from editor scripts
+
+### Druid 1.2.4
+- [Hotkey] Add `MODIFICATOR_RELEASE_TIME` style parameter to control the time for which the modificator key will be active after release
+	- Default value is `0.12` seconds
+	- This allows to prevent the hotkey from being triggered immediately after the modificator key is released
