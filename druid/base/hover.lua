@@ -21,6 +21,7 @@ local component = require("druid.component")
 local M = component.create("hover")
 
 local IS_MOBILE = helper.is_mobile()
+local cursor_stack = {}
 
 ---The constructor for the hover component
 ---@param node node Gui node
@@ -185,8 +186,16 @@ function M:is_enabled()
 end
 
 
+---@private
+function M:on_remove()
+	cursor_stack[self:get_uid()] = nil
+	self._is_hovered = false
+	self._is_mouse_hovered = false
+	M._apply_cursor_stack()
+end
+
+
 -- Internal cursor stack
-local cursor_stack = {}
 ---@local
 function M:_set_cursor(priority, cursor)
 	if not defos then
@@ -196,8 +205,16 @@ function M:_set_cursor(priority, cursor)
 	local uid = self:get_uid()
 	cursor_stack[uid] = cursor_stack[uid] or {}
 	cursor_stack[uid][priority] = cursor
+	M._apply_cursor_stack()
+end
 
-	-- set cursor with high priority via pairs
+
+---@local
+function M._apply_cursor_stack()
+	if not defos then
+		return
+	end
+
 	local priority = nil
 	local cursor_to_set = nil
 	for _, stack in pairs(cursor_stack) do

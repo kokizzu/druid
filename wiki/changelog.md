@@ -831,3 +831,7 @@ Please support me if you like this project! It will help me keep engaged to upda
 - [Hotkey] Add `MODIFICATOR_RELEASE_TIME` style parameter to control the time for which the modificator key will be active after release
 	- Default value is `0.12` seconds
 	- This allows to prevent the hotkey from being triggered immediately after the modificator key is released
+
+### Druid 1.2.5
+- [Hover] Fix for cursor stack issue
+	- Now cursor stack is applied correctly when the hover component is removed
